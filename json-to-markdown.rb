@@ -28,7 +28,12 @@ puts ""
 puts "## All Plugins"
 puts header
 
+collectors = []
+processors = []
+publishers = []
+
 plugins.each do |plugin_hash|
+  # prep for initialization of a PluginEntry
   name = plugin_hash["name"]
   type = plugin_hash["type"]
   description = plugin_hash["description"]
@@ -39,7 +44,6 @@ plugins.each do |plugin_hash|
   maintainer = case url
                when /intelsdi/
                   "Intel"
-                  binding.pry
                when /staples/
                   "Staples Inc"
                else
@@ -48,6 +52,38 @@ plugins.each do |plugin_hash|
                   URI.split(url)[5].split('/')[1]
                end
 
+
   item = PluginEntry.new(name, type, description, url, maintainer)
-  puts output = renderer.result(item.get_binding)
+
+  case type.downcase
+  when /collector/
+    collectors.push(item)
+  when /processor/
+    processors.push(item)
+  else
+    publishers.push(item)
+  end
 end
+
+puts "## Collectors"
+puts header
+collectors.each do |plugin|
+  puts output = renderer.result(plugin.get_binding)
+end
+
+puts "## Processors"
+puts header
+processors.each do |plugin|
+  puts output = renderer.result(plugin.get_binding)
+end
+
+puts "## Publishers"
+puts header
+publishers.each do |plugin|
+  puts output = renderer.result(plugin.get_binding)
+end
+
+puts "Want to learn more? lalalalal"
+#puts processors.name
+#binding.pry
+#puts output = renderer.result(item.get_binding)
