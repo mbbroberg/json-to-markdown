@@ -2,8 +2,13 @@ require "json"
 require "erb"
 require "pry"
 
+header = "| Name  | Type  | Description | Link | Download |\n" +
+         "| :---- | :---- | :---------- | :--- | :------- |\n"
 
-class Plugin
+table_template = "| <%= name %> | <%= type %> | <%= description %> | <%= url %> |\n"
+renderer = ERB.new(table_template)
+
+class PluginEntry
   include ERB::Util
   attr_accessor :name, :type, :description, :url
 
@@ -20,10 +25,18 @@ class Plugin
   end
 end
 
+# Getting JSON file and parsing it as an array
+file = File.read("plugin-metadata-Sept21.json")
+plugins = JSON.parse(file)
 
+puts header
 
-list = Plugin.new("example", "one", "two", "three")
-table_template = "| <%= name %> | <%= type %> | <%= description %> | <%= url %> |\n"
-renderer = ERB.new(table_template)
+plugins.each do |plugin_hash|
+  name = plugin_hash["name"]
+  type = plugin_hash["type"]
+  description = plugin_hash["description"]
+  url = plugin_hash["url"]
 
-puts output = renderer.result(list.get_binding)
+  item = PluginEntry.new(name, type, description, url)
+  puts output = renderer.result(item.get_binding)
+end
