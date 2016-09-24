@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Apache",
+    "type": "Collector",
+    "description": "Collects Apache webserver mod_status metrics",
+    "other": "https://github.com/intelsdi-x/snap-plugin-collector-apache",
+    "url": "https://github.com/intelsdi-x/snap-plugin-collector-apache"
+  }]

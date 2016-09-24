@@ -16,12 +16,6 @@ renderer = ERB.new(table_template)
 file = File.read("plugin-metadata-Sept21.json")
 plugins = JSON.parse(file)
 
-##
-#
-# Insert the default information into the catalog
-#
-##
-
 puts "# Plugin Catalog"
 puts "This is the master catalog of plugins for Snap. The plugins in this list may be written by multiple sources. Please examine the license and documentation of each plugin for more information."
 puts ""
